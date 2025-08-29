@@ -103,8 +103,8 @@ public class MetadataMatching {
                                 HttpHost.create(configuration.getElastic().getHost()))
                         .setRequestConfigCallback(
                                 requestConfigBuilder -> requestConfigBuilder
-                                        .setConnectTimeout(30000)
-                                        .setSocketTimeout(60000))
+                                        .setConnectTimeout(configuration.getElastic().getConnectTimeoutMs())
+                                        .setSocketTimeout(configuration.getElastic().getSocketTimeoutMs()))
                         .setHttpClientConfigCallback(
                                 httpAsyncClientBuilder -> httpAsyncClientBuilder
                                         .setMaxConnPerRoute(configuration.getElastic().getMaxConnections())
@@ -359,6 +359,11 @@ public class MetadataMatching {
         builder.query(query);
         builder.from(0);
         builder.size(configuration.getBlockSize());
+        // Apply per-query timeout if configured
+        String cfgTimeout = configuration.getElastic() != null ? configuration.getElastic().getSearchTimeout() : null;
+        if (cfgTimeout != null && !cfgTimeout.trim().isEmpty()) {
+            builder.timeout(org.elasticsearch.core.TimeValue.parseTimeValue(cfgTimeout, "searchTimeout"));
+        }
 
         String[] includeFields = new String[]
                 {

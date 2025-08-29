@@ -66,6 +66,9 @@ public class LookupConfiguration extends Configuration {
 
     private int maxAcceptedRequests;
 
+    // HTTP API timeout for async responses (in seconds)
+    private int requestTimeoutSeconds = 120;
+
     public String getStorage() {
         return storage;
     }
@@ -142,6 +145,14 @@ public class LookupConfiguration extends Configuration {
         this.maxAcceptedRequests = maxAcceptedRequests;
     }
 
+    public int getRequestTimeoutSeconds() {
+        return requestTimeoutSeconds;
+    }
+
+    public void setRequestTimeoutSeconds(int requestTimeoutSeconds) {
+        this.requestTimeoutSeconds = requestTimeoutSeconds;
+    }
+
     public String getGrobidHost() {
         return grobidHost;
     }
@@ -193,6 +204,11 @@ public class LookupConfiguration extends Configuration {
         private String host;
         private String index;
         private int maxConnections = 10;
+        // ES HTTP client timeouts (in milliseconds)
+        private int connectTimeoutMs = 30000;
+        private int socketTimeoutMs = 60000;
+        // Optional ES per-search timeout, e.g. "60s"; null/empty disables
+        private String searchTimeout;
 
         public String getHost() {
             return host;
@@ -216,6 +232,30 @@ public class LookupConfiguration extends Configuration {
 
         public void setMaxConnections(int maxConnections) {
             this.maxConnections = maxConnections;
+        }
+
+        public int getConnectTimeoutMs() {
+            return connectTimeoutMs;
+        }
+
+        public void setConnectTimeoutMs(int connectTimeoutMs) {
+            this.connectTimeoutMs = connectTimeoutMs;
+        }
+
+        public int getSocketTimeoutMs() {
+            return socketTimeoutMs;
+        }
+
+        public void setSocketTimeoutMs(int socketTimeoutMs) {
+            this.socketTimeoutMs = socketTimeoutMs;
+        }
+
+        public String getSearchTimeout() {
+            return searchTimeout;
+        }
+
+        public void setSearchTimeout(String searchTimeout) {
+            this.searchTimeout = searchTimeout;
         }
     }
 

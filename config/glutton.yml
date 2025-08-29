@@ -30,6 +30,11 @@ elastic:
   #host: 192.168.1.30:9200
   index: glutton
   maxConnections: 20
+  # HTTP client timeouts (milliseconds)
+  connectTimeoutMs: 30000
+  socketTimeoutMs: 60000
+  # Per-search execution timeout at Elasticsearch side (e.g., "60s"); omit or empty to disable
+  searchTimeout: "60s"
 
 # solr settings
 solr:
@@ -98,6 +103,9 @@ corsAllowedHeaders: "X-Requested-With,Content-Type,Accept,Origin"
 # beyond the following number of requests, a 503 status will be returned (service unavailable) until enough
 # requests are processed to go beyond the max
 maxAcceptedRequests: 2048
+
+# HTTP API timeout for client requests (seconds)
+requestTimeoutSeconds: 120
 
 server:
   type: custom

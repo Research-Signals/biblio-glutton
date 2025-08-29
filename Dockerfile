@@ -9,6 +9,7 @@ RUN dnf --quiet --setopt=install_weak_deps=False --assumeyes install nodejs20 sh
 
 FROM env AS builder
 RUN dnf --quiet --setopt=install_weak_deps=False --assumeyes install nodejs20-npm && \
+    dnf --quiet --setopt=install_weak_deps=False --assumeyes groupinstall "Development Tools" && \
     alternatives --install /usr/bin/npm npm /usr/bin/npm-20 1
 COPY . /root/biblio-glutton
 RUN cd /root/biblio-glutton && \
